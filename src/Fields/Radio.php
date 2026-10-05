@@ -1,6 +1,6 @@
 <?php
 /**
- * Multiple choice (radio) field.
+ * Multiple Choice field.
  *
  * @package Glixform
  */
@@ -15,21 +15,27 @@ defined( 'ABSPATH' ) || exit;
 class Radio extends ChoiceField {
 
 	/**
-	 * {@inheritDoc}
+	 * Machine name.
+	 *
+	 * @return string
 	 */
 	public function type() {
 		return 'radio';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Display name.
+	 *
+	 * @return string
 	 */
 	public function name() {
 		return __( 'Multiple Choice', 'glixform' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Builder icon.
+	 *
+	 * @return string
 	 */
 	public function icon() {
 		return 'dashicons-marker';
@@ -47,7 +53,7 @@ class Radio extends ChoiceField {
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Render the group.
 	 *
 	 * @param array        $field Field config.
 	 * @param string|array $value Value.

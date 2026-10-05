@@ -15,42 +15,59 @@ defined( 'ABSPATH' ) || exit;
 class Textarea extends AbstractField {
 
 	/**
-	 * {@inheritDoc}
+	 * Machine name.
+	 *
+	 * @return string
 	 */
 	public function type() {
 		return 'textarea';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Display name.
+	 *
+	 * @return string
 	 */
 	public function name() {
 		return __( 'Paragraph Text', 'glixform' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Builder icon.
+	 *
+	 * @return string
 	 */
 	public function icon() {
 		return 'dashicons-editor-paragraph';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Supported options.
+	 *
+	 * @return string[]
 	 */
 	public function options() {
-		return array( 'label', 'description', 'required', 'placeholder', 'default_value', 'max_length' );
+		return array( 'label', 'description', 'required', 'placeholder', 'default_value', 'max_length', 'css_class' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Default value is multi-line here.
+	 *
+	 * @return array
 	 */
-	public function defaults() {
-		return parent::defaults() + array( 'max_length' => 0 );
+	protected function custom_option_definitions() {
+		return array(
+			'default_value' => array(
+				'type'    => 'textarea',
+				'label'   => __( 'Default value', 'glixform' ),
+				'default' => '',
+				'group'   => 'advanced',
+			),
+		);
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Render the textarea.
 	 *
 	 * @param array        $field Field config.
 	 * @param string|array $value Value.
@@ -63,7 +80,7 @@ class Textarea extends AbstractField {
 			'<textarea class="glixform-input" rows="5"%s%s>%s</textarea>',
 			$this->common_attributes( $field, $attrs ),
 			$extra,
-			esc_textarea( (string) $value )
+			esc_textarea( is_array( $value ) ? '' : (string) $value )
 		);
 	}
 

@@ -63,7 +63,38 @@ class SubmissionController {
 			return null;
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Each value is sanitized by its field type.
-		return wp_unslash( $_POST['glixform'] );
+		$data = wp_unslash( $_POST['glixform'] );
+
+		// The CAPTCHA widget posts its token under the provider's own key.
+		$key                      = Captcha::response_key();
+		$data['captcha_response'] = $key && isset( $_POST[ $key ] ) && is_string( $_POST[ $key ] ) ? sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+		return $data;
+	}
+
+	/**
+	 * Uploaded files grouped by field ID, as lists of name/tmp_name/size/error.
+	 *
+	 * @return array
+	 */
+	private function files() {
+		$files = array();
+		foreach ( $_FILES as $key => $upload ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			if ( ! preg_match( '/^glixform_file_(\d+)$/', (string) $key, $m ) || ! is_array( $upload ) || ! isset( $upload['name'] ) ) {
+				continue;
+			}
+			$list = array();
+			foreach ( (array) $upload['name'] as $index => $name ) {
+				$list[] = array(
+					'name'     => is_string( $name ) ? $name : '',
+					'tmp_name' => (string) ( ( (array) $upload['tmp_name'] )[ $index ] ?? '' ),
+					'size'     => (int) ( ( (array) $upload['size'] )[ $index ] ?? 0 ),
+					'error'    => (int) ( ( (array) $upload['error'] )[ $index ] ?? UPLOAD_ERR_NO_FILE ),
+				);
+			}
+			$files[ (int) $m[1] ] = $list;
+		}
+		return $files;
 	}
 
 	/**
@@ -75,7 +106,7 @@ class SubmissionController {
 			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'glixform' ) ), 400 );
 		}
 
-		$result = $this->submission->process( $data );
+		$result = $this->submission->process( $data, $this->files() );
 
 		if ( $result['success'] ) {
 			wp_send_json_success( $result['confirmation'] );
@@ -101,7 +132,7 @@ class SubmissionController {
 			return;
 		}
 
-		$result = $this->submission->process( $data );
+		$result = $this->submission->process( $data, $this->files() );
 
 		if ( ! $result['success'] ) {
 			$this->renderer->set_state( $result['form_id'], $result );

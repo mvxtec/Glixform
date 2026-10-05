@@ -9,3 +9,7 @@ phpcs.xml.dist
 phpunit.xml.dist
 .phpunit.result.cache
 README.md
+/node_modules
+/assets/src
+package.json
+package-lock.json

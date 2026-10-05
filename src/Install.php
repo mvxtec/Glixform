@@ -28,6 +28,13 @@ class Install {
 	}
 
 	/**
+	 * Deactivation hook: stop scheduled jobs.
+	 */
+	public static function deactivate() {
+		wp_clear_scheduled_hook( 'glixform_daily' );
+	}
+
+	/**
 	 * Run the installer when the stored schema version is outdated.
 	 */
 	public static function maybe_upgrade() {

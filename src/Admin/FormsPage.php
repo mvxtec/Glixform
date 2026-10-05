@@ -92,31 +92,43 @@ class FormsPage {
 	public function render() {
 		Admin::check_permission();
 
-		$table = new FormsListTable( $this->plugin->forms->all(), $this->plugin->entries->counts_by_form() );
-		$table->prepare_items();
-		?>
-		<div class="wrap glixform-wrap">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'Forms', 'glixform' ); ?></h1>
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=glixform-builder' ) ); ?>" class="page-title-action"><?php esc_html_e( 'Add New Form', 'glixform' ); ?></a>
-			<hr class="wp-header-end">
-			<?php
-			Admin::notice(
+		$forms = $this->plugin->forms->all();
+		echo '<div class="wrap glixform-admin">';
+		Admin::header(
+			__( 'Forms', 'glixform' ),
+			array(
 				array(
-					'duplicated' => __( 'Form duplicated.', 'glixform' ),
-					'deleted'    => __( 'Form and its entries deleted.', 'glixform' ),
-				)
+					'url'     => admin_url( 'admin.php?page=glixform-builder' ),
+					'label'   => __( 'Add new form', 'glixform' ),
+					'icon'    => 'dashicons-plus-alt2',
+					'primary' => true,
+				),
+			)
+		);
+		Admin::notice(
+			array(
+				'duplicated' => __( 'Form duplicated.', 'glixform' ),
+				'deleted'    => __( 'Form and its entries deleted.', 'glixform' ),
+				'imported'   => __( 'Forms imported.', 'glixform' ),
+			)
+		);
+
+		if ( ! $forms ) {
+			Admin::empty_state(
+				'dashicons-feedback',
+				__( 'Build your first form', 'glixform' ),
+				__( 'Pick a template or start from scratch. It takes about a minute.', 'glixform' ),
+				admin_url( 'admin.php?page=glixform-builder' ),
+				__( 'Create a form', 'glixform' )
 			);
+		} else {
+			$table = new FormsListTable( $forms, $this->plugin->entries->counts_by_form() );
+			$table->prepare_items();
+			echo '<div class="glixform-card glixform-table-card">';
 			$table->display();
-			?>
-		</div>
-		<script>
-		document.addEventListener( 'click', function ( e ) {
-			var link = e.target.closest( '.glixform-confirm' );
-			if ( link && ! window.confirm( link.getAttribute( 'data-confirm' ) ) ) {
-				e.preventDefault();
-			}
-		} );
-		</script>
-		<?php
+			echo '</div>';
+		}
+		echo '</div>';
+		Admin::confirm_script();
 	}
 }

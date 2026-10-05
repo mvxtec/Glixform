@@ -7,6 +7,8 @@
 
 namespace Glixform\Database;
 
+use Glixform\Support\Uploads;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -17,6 +19,8 @@ defined( 'ABSPATH' ) || exit;
  * for searching and filtering.
  */
 class EntryRepository {
+
+	const STATUSES = array( 'unread', 'read', 'spam' );
 
 	/**
 	 * Entries table name.
@@ -43,7 +47,7 @@ class EntryRepository {
 	 *
 	 * @param int   $form_id Form ID.
 	 * @param array $fields  Snapshot: [ [ 'id', 'type', 'label', 'value' ], ... ].
-	 * @param array $meta    user_id, ip_address, user_agent, page_url.
+	 * @param array $meta    status, user_id, ip_address, user_agent, page_url.
 	 * @return int Entry ID, or 0 on failure.
 	 */
 	public function insert( $form_id, array $fields, array $meta = array() ) {
@@ -53,7 +57,7 @@ class EntryRepository {
 			$this->table(),
 			array(
 				'form_id'    => absint( $form_id ),
-				'status'     => 'unread',
+				'status'     => in_array( $meta['status'] ?? '', self::STATUSES, true ) ? $meta['status'] : 'unread',
 				'fields'     => wp_json_encode( array_values( $fields ) ),
 				'user_id'    => absint( $meta['user_id'] ?? 0 ),
 				'ip_address' => substr( (string) ( $meta['ip_address'] ?? '' ), 0, 128 ),
@@ -71,7 +75,7 @@ class EntryRepository {
 		$entry_id = (int) $wpdb->insert_id;
 
 		foreach ( $fields as $field ) {
-			$value = is_array( $field['value'] ) ? implode( "\n", $field['value'] ) : (string) $field['value'];
+			$value = isset( $field['formatted'] ) ? (string) $field['formatted'] : ( is_array( $field['value'] ) ? implode( "\n", array_filter( $field['value'], 'is_scalar' ) ) : (string) $field['value'] );
 			if ( '' === $value ) {
 				continue;
 			}
@@ -191,9 +195,13 @@ class EntryRepository {
 		$where  = array( 'form_id = %d' );
 		$params = array( absint( $args['form_id'] ) );
 
-		if ( in_array( $args['status'], array( 'read', 'unread' ), true ) ) {
+		if ( in_array( $args['status'], self::STATUSES, true ) ) {
 			$where[]  = 'status = %s';
 			$params[] = $args['status'];
+		} else {
+			// "All" never includes spam.
+			$where[]  = 'status <> %s';
+			$params[] = 'spam';
 		}
 
 		if ( '' !== (string) $args['search'] ) {
@@ -210,12 +218,12 @@ class EntryRepository {
 	 * Set entry status.
 	 *
 	 * @param int[]  $ids    Entry IDs.
-	 * @param string $status "read" or "unread".
+	 * @param string $status "read", "unread" or "spam".
 	 * @return void
 	 */
 	public function set_status( array $ids, $status ) {
 		global $wpdb;
-		if ( ! in_array( $status, array( 'read', 'unread' ), true ) ) {
+		if ( ! in_array( $status, self::STATUSES, true ) ) {
 			return;
 		}
 		foreach ( array_map( 'absint', $ids ) as $id ) {
@@ -233,6 +241,10 @@ class EntryRepository {
 		global $wpdb;
 		$deleted = 0;
 		foreach ( array_filter( array_map( 'absint', $ids ) ) as $id ) {
+			$entry = $this->get( $id );
+			if ( $entry ) {
+				Uploads::delete_for_entry( $entry );
+			}
 			$wpdb->delete( $this->fields_table(), array( 'entry_id' => $id ), array( '%d' ) );
 			$deleted += (int) $wpdb->delete( $this->table(), array( 'id' => $id ), array( '%d' ) );
 		}
@@ -247,6 +259,14 @@ class EntryRepository {
 	 */
 	public function delete_by_form( $form_id ) {
 		global $wpdb;
+		$table = $this->table();
+		$ids   = $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$table} WHERE form_id = %d", $form_id ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		foreach ( $ids as $id ) {
+			$entry = $this->get( (int) $id );
+			if ( $entry ) {
+				Uploads::delete_for_entry( $entry );
+			}
+		}
 		$wpdb->delete( $this->fields_table(), array( 'form_id' => absint( $form_id ) ), array( '%d' ) );
 		$wpdb->delete( $this->table(), array( 'form_id' => absint( $form_id ) ), array( '%d' ) );
 	}
@@ -264,5 +284,37 @@ class EntryRepository {
 		$row['form_id'] = (int) $row['form_id'];
 		$row['user_id'] = (int) $row['user_id'];
 		return $row;
+	}
+
+	/**
+	 * IDs of entries created before a date (for retention).
+	 *
+	 * @param string $before_gmt MySQL datetime (UTC).
+	 * @param int    $limit      Maximum.
+	 * @return int[]
+	 */
+	public function ids_older_than( $before_gmt, $limit = 500 ) {
+		global $wpdb;
+		$table = $this->table();
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return array_map( 'intval', (array) $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$table} WHERE created_at < %s ORDER BY id ASC LIMIT %d", $before_gmt, $limit ) ) );
+	}
+
+	/**
+	 * Entries containing an exact value (e.g. an email address), for privacy requests.
+	 *
+	 * @param string $value Value.
+	 * @param int    $limit Maximum.
+	 * @param int    $page  Page (1-based).
+	 * @return array
+	 */
+	public function find_by_value( $value, $limit = 100, $page = 1 ) {
+		global $wpdb;
+		$table  = $this->table();
+		$fields = $this->fields_table();
+		$offset = max( 0, ( (int) $page - 1 ) * (int) $limit );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE id IN ( SELECT entry_id FROM {$fields} WHERE value = %s ) ORDER BY id ASC LIMIT %d OFFSET %d", $value, $limit, $offset ), ARRAY_A );
+		return array_map( array( $this, 'hydrate' ), (array) $rows );
 	}
 }

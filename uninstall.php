@@ -35,6 +35,19 @@ function glixform_uninstall_site() {
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}glixform_entries" );
 	// phpcs:enable
 
+	// Uploaded files.
+	$uploads = wp_upload_dir( null, false );
+	$dir     = trailingslashit( $uploads['basedir'] ) . 'glixform';
+	if ( is_dir( $dir ) ) {
+		$files = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
+		foreach ( $files as $file ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
+			$file->isDir() ? rmdir( $file->getPathname() ) : wp_delete_file( $file->getPathname() );
+		}
+		rmdir( $dir ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
+	}
+
+	wp_clear_scheduled_hook( 'glixform_daily' );
 	delete_option( 'glixform_settings' );
 	delete_option( 'glixform_db_version' );
 	delete_option( 'glixform_version' );

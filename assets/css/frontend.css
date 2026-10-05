@@ -1,53 +1,178 @@
-/* Glixform front-end styles. Kept light so the theme's typography shows through. */
+/*
+ * Glixform front end.
+ *
+ * Every colour, radius and spacing is a custom property on .glixform-container,
+ * so themes can restyle forms without overriding selectors, e.g.
+ *   .glixform-container { --gf-accent: #e11d48; --gf-radius: 4px; }
+ */
 .glixform-container {
-	--glixform-accent: #2563eb;
-	--glixform-error: #b91c1c;
-	--glixform-border: #c3c4c7;
-	--glixform-radius: 6px;
+	--gf-accent: #6d4aff;
+	--gf-accent-hover: #5a35f0;
+	--gf-accent-soft: rgba(109, 74, 255, 0.12);
+	--gf-accent-contrast: #fff;
+	--gf-text: inherit;
+	--gf-muted: #6b7280;
+	--gf-border: #d9dce3;
+	--gf-border-hover: #b9bfcc;
+	--gf-input-bg: #fff;
+	--gf-surface: #f7f7fb;
+	--gf-error: #dc2626;
+	--gf-error-soft: #fef2f2;
+	--gf-success: #047857;
+	--gf-success-soft: #ecfdf5;
+	--gf-star: #f5a524;
+	--gf-radius: 10px;
+	--gf-gap: 1.35rem;
+	--gf-font-size: 1rem;
+	--gf-input-height: 2.9em;
+	--gf-shadow-focus: 0 0 0 4px var(--gf-accent-soft);
+
+	box-sizing: border-box;
 	max-width: 100%;
 	margin: 1.5em 0;
+	color: var(--gf-text);
+	font-size: var(--gf-font-size);
+}
+
+.glixform-container *,
+.glixform-container *::before,
+.glixform-container *::after {
+	box-sizing: border-box;
 }
 
 .glixform .glixform-title {
-	margin: 0 0 1em;
+	margin: 0 0 1.25em;
+	font-size: 1.5em;
+	line-height: 1.25;
+	letter-spacing: -0.01em;
+}
+
+/* ---------- Layout ---------- */
+.glixform-fields {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gf-gap);
 }
 
 .glixform-field {
-	margin: 0 0 1.25em;
+	margin: 0;
+	min-width: 0;
+	animation: glixform-fade 0.2s ease;
 }
 
-.glixform-label,
-.glixform-choices legend {
+.glixform-field[hidden] {
+	display: none;
+}
+
+@keyframes glixform-fade {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* ---------- Labels and help ---------- */
+.glixform .glixform-label,
+.glixform .glixform-choices legend,
+.glixform .glixform-parts legend,
+.glixform .glixform-rating legend {
 	display: block;
-	margin: 0 0 0.4em;
+	margin: 0 0 0.5em;
 	padding: 0;
+	font-size: 0.95em;
 	font-weight: 600;
-}
-
-.glixform-required {
-	color: var(--glixform-error);
-}
-
-.glixform .glixform-input {
-	box-sizing: border-box;
-	width: 100%;
-	max-width: 100%;
-	padding: 0.6em 0.75em;
-	border: 1px solid var(--glixform-border);
-	border-radius: var(--glixform-radius);
-	background: #fff;
-	color: inherit;
-	font: inherit;
 	line-height: 1.4;
 }
 
-.glixform .glixform-input:focus {
-	outline: 2px solid var(--glixform-accent);
-	outline-offset: 1px;
-	border-color: var(--glixform-accent);
+.glixform-required {
+	color: var(--gf-error);
+	margin-left: 0.1em;
 }
 
-.glixform-choices {
+.glixform-description {
+	margin-top: 0.45em;
+	color: var(--gf-muted);
+	font-size: 0.875em;
+	line-height: 1.5;
+}
+
+.glixform-description > :first-child {
+	margin-top: 0;
+}
+
+.glixform-description > :last-child {
+	margin-bottom: 0;
+}
+
+.glixform-sublabel {
+	display: block;
+	margin-top: 0.35em;
+	color: var(--gf-muted);
+	font-size: 0.8em;
+}
+
+/* ---------- Inputs ---------- */
+.glixform .glixform-input {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	min-height: var(--gf-input-height);
+	margin: 0;
+	padding: 0.65em 0.9em;
+	border: 1px solid var(--gf-border);
+	border-radius: var(--gf-radius);
+	background: var(--gf-input-bg);
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+	color: inherit;
+	font: inherit;
+	font-size: 1em;
+	line-height: 1.45;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.glixform textarea.glixform-input {
+	min-height: 8em;
+	resize: vertical;
+}
+
+.glixform select.glixform-input {
+	padding-right: 2.5em;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%236b7280' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+	background-position: right 0.95em center;
+	background-repeat: no-repeat;
+	background-size: 12px 8px;
+	cursor: pointer;
+}
+
+.glixform .glixform-input::placeholder {
+	color: var(--gf-muted);
+	opacity: 0.75;
+}
+
+.glixform .glixform-input:hover {
+	border-color: var(--gf-border-hover);
+}
+
+.glixform .glixform-input:focus {
+	outline: none;
+	border-color: var(--gf-accent);
+	box-shadow: var(--gf-shadow-focus);
+}
+
+.glixform .glixform-input:disabled {
+	opacity: 0.6;
+}
+
+/* ---------- Choices ---------- */
+.glixform-choices,
+.glixform-parts,
+.glixform-rating {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -55,82 +180,493 @@
 }
 
 .glixform-choices ul {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
 .glixform-choices li {
-	margin: 0 0 0.35em;
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	gap: 0.65em;
+	margin: 0;
+	padding: 0;
 }
 
-.glixform-description {
-	margin-top: 0.35em;
+.glixform-choices li label {
+	cursor: pointer;
+	line-height: 1.45;
+}
+
+.glixform-choices input[type="checkbox"],
+.glixform-choices input[type="radio"] {
+	flex: none;
+	width: 1.25em;
+	height: 1.25em;
+	margin: 0.1em 0 0;
+	border: 1.5px solid var(--gf-border-hover);
+	background: var(--gf-input-bg);
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+	-webkit-appearance: none;
+	appearance: none;
+	display: inline-grid;
+	place-content: center;
+}
+
+.glixform-choices input[type="checkbox"] {
+	border-radius: 6px;
+}
+
+.glixform-choices input[type="radio"] {
+	border-radius: 50%;
+}
+
+.glixform-choices input[type="checkbox"]::before {
+	content: "";
+	width: 0.7em;
+	height: 0.7em;
+	transform: scale(0);
+	transition: transform 0.12s ease;
+	background: var(--gf-accent-contrast);
+	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.glixform-choices input[type="radio"]::before {
+	content: "";
+	width: 0.5em;
+	height: 0.5em;
+	border-radius: 50%;
+	transform: scale(0);
+	transition: transform 0.12s ease;
+	background: var(--gf-accent-contrast);
+}
+
+.glixform-choices input:checked {
+	border-color: var(--gf-accent);
+	background: var(--gf-accent);
+}
+
+.glixform-choices input:checked::before {
+	transform: scale(1);
+}
+
+.glixform-choices input:focus-visible {
+	outline: none;
+	box-shadow: var(--gf-shadow-focus);
+	border-color: var(--gf-accent);
+}
+
+/* ---------- Composite (name, address) ---------- */
+.glixform-parts-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.85em 1em;
+}
+
+.glixform-part-wide {
+	grid-column: 1 / -1;
+}
+
+/* ---------- Rating ---------- */
+.glixform-stars {
+	display: inline-flex;
+	gap: 0.15em;
+}
+
+.glixform-star-input {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+}
+
+.glixform-star {
+	display: inline-flex;
+	padding: 0.15em;
+	border-radius: 8px;
+	color: var(--gf-border);
+	cursor: pointer;
+	transition: color 0.12s ease, transform 0.12s ease;
+}
+
+.glixform-star svg {
+	width: 2em;
+	height: 2em;
+	fill: currentColor;
+}
+
+.glixform-star:hover {
+	transform: scale(1.12);
+}
+
+.glixform-star.is-on,
+.glixform-star-input:checked + .glixform-star {
+	color: var(--gf-star);
+}
+
+.glixform-star-input:focus-visible + .glixform-star {
+	box-shadow: var(--gf-shadow-focus);
+}
+
+/* ---------- File upload ---------- */
+.glixform-file {
+	position: relative;
+	padding: 1.4em;
+	border: 1.5px dashed var(--gf-border-hover);
+	border-radius: var(--gf-radius);
+	background: var(--gf-surface);
+	text-align: center;
+	transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.glixform-file:hover,
+.glixform-file.is-dragover {
+	border-color: var(--gf-accent);
+	background: var(--gf-accent-soft);
+}
+
+.glixform-file-input {
+	display: block;
+	width: 100%;
+	color: var(--gf-muted);
+	font: inherit;
 	font-size: 0.9em;
-	opacity: 0.8;
+	cursor: pointer;
 }
 
+.glixform-file-input::file-selector-button {
+	margin-right: 0.9em;
+	padding: 0.55em 1.1em;
+	border: 0;
+	border-radius: 999px;
+	background: var(--gf-accent);
+	color: var(--gf-accent-contrast);
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.glixform-file-hint {
+	margin-top: 0.6em;
+	color: var(--gf-muted);
+	font-size: 0.8em;
+}
+
+.glixform-file-list {
+	margin: 0.75em 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: 0.875em;
+	text-align: left;
+}
+
+.glixform-file-list li {
+	padding: 0.45em 0.75em;
+	border-radius: 8px;
+	background: var(--gf-input-bg);
+	margin-top: 0.35em;
+}
+
+/* ---------- Divider and HTML ---------- */
+.glixform-field-divider {
+	padding-top: 0.5em;
+	border-top: 1px solid var(--gf-border);
+}
+
+.glixform .glixform-divider-title {
+	margin: 0.6em 0 0;
+	font-size: 1.15em;
+	line-height: 1.35;
+}
+
+/* ---------- Errors and notices ---------- */
 .glixform-error {
-	margin-top: 0.35em;
-	color: var(--glixform-error);
-	font-size: 0.9em;
+	display: flex;
+	align-items: center;
+	gap: 0.35em;
+	margin-top: 0.45em;
+	color: var(--gf-error);
+	font-size: 0.85em;
+	font-weight: 500;
 }
 
-.glixform-has-error .glixform-input {
-	border-color: var(--glixform-error);
+.glixform-error[hidden] {
+	display: none;
+}
+
+.glixform-has-error .glixform-input,
+.glixform-has-error .glixform-file,
+.glixform-has-error .glixform-choices input {
+	border-color: var(--gf-error);
+}
+
+.glixform-has-error .glixform-input:focus {
+	box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
 }
 
 .glixform-notice {
-	margin: 0 0 1.25em;
-	padding: 0.75em 1em;
-	border-radius: var(--glixform-radius);
+	margin: 0 0 var(--gf-gap);
+	padding: 0.85em 1.1em;
+	border-radius: var(--gf-radius);
+	font-size: 0.925em;
+}
+
+.glixform-notice[hidden] {
+	display: none;
 }
 
 .glixform-notice-error {
-	border: 1px solid var(--glixform-error);
-	background: #fef2f2;
-	color: var(--glixform-error);
+	border: 1px solid rgba(220, 38, 38, 0.25);
+	background: var(--gf-error-soft);
+	color: var(--gf-error);
 }
 
 .glixform-confirmation {
-	padding: 1em 1.25em;
-	border: 1px solid #86efac;
-	border-radius: var(--glixform-radius);
-	background: #f0fdf4;
-	color: #14532d;
+	position: relative;
+	padding: 1.4em 1.5em 1.4em 3.6em;
+	border: 1px solid rgba(4, 120, 87, 0.2);
+	border-radius: var(--gf-radius);
+	background: var(--gf-success-soft);
+	color: var(--gf-success);
+	line-height: 1.55;
+	animation: glixform-fade 0.25s ease;
+}
+
+.glixform-confirmation::before {
+	content: "";
+	position: absolute;
+	left: 1.3em;
+	top: 1.35em;
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 50%;
+	background: var(--gf-success) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 70% no-repeat;
 }
 
 .glixform-confirmation:focus {
 	outline: none;
 }
 
+.glixform-confirmation > :first-child {
+	margin-top: 0;
+}
+
 .glixform-confirmation > :last-child {
 	margin-bottom: 0;
 }
 
+/* ---------- Buttons ---------- */
+.glixform-submit,
+.glixform-page-nav {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75em;
+	margin-top: calc(var(--gf-gap) + 0.25em);
+}
+
+.glixform-submit[hidden],
+.glixform-page-nav[hidden] {
+	display: none;
+}
+
+.glixform-page-nav .glixform-next,
+.glixform-submit button[type="submit"] {
+	margin-left: auto;
+}
+
 .glixform .glixform-button {
-	padding: 0.7em 1.5em;
-	border: 0;
-	border-radius: var(--glixform-radius);
-	background: var(--glixform-accent);
-	color: #fff;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5em;
+	min-height: var(--gf-input-height);
+	padding: 0.7em 1.6em;
+	border: 1px solid transparent;
+	border-radius: var(--gf-radius);
+	background: var(--gf-accent);
+	color: var(--gf-accent-contrast);
 	font: inherit;
 	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
 	cursor: pointer;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.08), 0 4px 12px -4px var(--gf-accent-soft);
+	transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
 
 .glixform .glixform-button:hover {
-	filter: brightness(0.92);
+	background: var(--gf-accent-hover);
+}
+
+.glixform .glixform-button:active {
+	transform: translateY(1px);
 }
 
 .glixform .glixform-button:focus-visible {
-	outline: 2px solid var(--glixform-accent);
-	outline-offset: 2px;
+	outline: none;
+	box-shadow: var(--gf-shadow-focus);
 }
 
-.glixform .glixform-button[disabled] {
-	opacity: 0.7;
-	cursor: wait;
+.glixform .glixform-button-secondary {
+	border-color: var(--gf-border);
+	background: var(--gf-input-bg);
+	color: inherit;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+}
+
+.glixform .glixform-button-secondary:hover {
+	border-color: var(--gf-border-hover);
+	background: var(--gf-surface);
+}
+
+.glixform .glixform-button[hidden] {
+	display: none;
+}
+
+.glixform .glixform-button.is-busy {
+	cursor: progress;
+	opacity: 0.85;
+}
+
+.glixform .glixform-button.is-busy::before {
+	content: "";
+	width: 1em;
+	height: 1em;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: glixform-spin 0.7s linear infinite;
+}
+
+@keyframes glixform-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* ---------- Multi-page progress ---------- */
+.glixform-progress {
+	margin: 0 0 calc(var(--gf-gap) + 0.25em);
+}
+
+.glixform-progress[hidden] {
+	display: none;
+}
+
+.glixform-progress-text {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-bottom: 0.6em;
+	font-size: 0.875em;
+}
+
+.glixform-progress-label {
+	color: var(--gf-muted);
+	font-weight: 500;
+}
+
+.glixform-progress-title {
+	font-weight: 600;
+}
+
+.glixform-progress-track {
+	height: 6px;
+	border-radius: 999px;
+	background: var(--gf-surface);
+	box-shadow: inset 0 0 0 1px var(--gf-border);
+	overflow: hidden;
+}
+
+.glixform-progress-fill {
+	display: block;
+	height: 100%;
+	width: 0;
+	border-radius: inherit;
+	background: linear-gradient(90deg, var(--gf-accent), var(--gf-accent-hover));
+	transition: width 0.3s ease;
+}
+
+.glixform-steps {
+	display: flex;
+	gap: 0.5em;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: step;
+}
+
+.glixform-step {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	min-width: 0;
+	padding-top: 0.7em;
+	border-top: 3px solid var(--gf-border);
+	color: var(--gf-muted);
+	font-size: 0.85em;
+	transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.glixform-step-number {
+	flex: none;
+	display: inline-grid;
+	place-content: center;
+	width: 1.8em;
+	height: 1.8em;
+	border-radius: 50%;
+	background: var(--gf-surface);
+	box-shadow: inset 0 0 0 1px var(--gf-border);
+	font-weight: 600;
+}
+
+.glixform-step-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.glixform-step.is-active,
+.glixform-step.is-done {
+	border-color: var(--gf-accent);
+	color: inherit;
+}
+
+.glixform-step.is-active .glixform-step-number,
+.glixform-step.is-done .glixform-step-number {
+	background: var(--gf-accent);
+	box-shadow: none;
+	color: var(--gf-accent-contrast);
+}
+
+/* ---------- CAPTCHA, honeypot, preview ---------- */
+.glixform-captcha {
+	flex-basis: 100%;
+}
+
+.glixform-captcha-placeholder {
+	flex-basis: 100%;
+	padding: 1em;
+	border: 1px dashed var(--gf-border);
+	border-radius: var(--gf-radius);
+	color: var(--gf-muted);
+	font-size: 0.85em;
+	text-align: center;
+}
+
+.glixform-preview-note {
+	flex-basis: 100%;
+	color: var(--gf-muted);
+	font-size: 0.85em;
+	text-align: right;
 }
 
 /* Honeypot: off-screen rather than display:none, which some bots detect. */
@@ -140,6 +676,41 @@
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
+}
+
+.glixform .screen-reader-text {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+	white-space: nowrap;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 540px) {
+	.glixform-parts-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.glixform-submit button[type="submit"],
+	.glixform-page-nav .glixform-next {
+		flex: 1 1 auto;
+	}
+
+	.glixform-step-title {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.glixform-container * {
+		animation: none !important;
+		transition: none !important;
+	}
 }
 
 /* Inside the block editor the form is a preview only. */

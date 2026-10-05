@@ -12,6 +12,7 @@ use Glixform\Database\EntryRepository;
 use Glixform\Fields\FieldRegistry;
 use Glixform\Forms\FormPostType;
 use Glixform\Forms\FormRepository;
+use Glixform\Forms\Templates;
 use Glixform\Frontend\Assets;
 use Glixform\Frontend\Block;
 use Glixform\Frontend\Preview;
@@ -21,6 +22,8 @@ use Glixform\Notifications\Mailer;
 use Glixform\Notifications\SmartTags;
 use Glixform\Process\Submission;
 use Glixform\Process\SubmissionController;
+use Glixform\Rest\RestController;
+use Glixform\Support\Privacy;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -49,6 +52,13 @@ final class Plugin {
 	 * @var FormRepository
 	 */
 	public $forms;
+
+	/**
+	 * Form templates.
+	 *
+	 * @var Templates
+	 */
+	public $templates;
 
 	/**
 	 * Entry storage.
@@ -111,7 +121,8 @@ final class Plugin {
 		$this->entries    = new EntryRepository();
 		$this->smart_tags = new SmartTags();
 		$this->mailer     = new Mailer( $this->smart_tags );
-		$this->renderer   = new Renderer( $this->fields );
+		$this->renderer   = new Renderer( $this->fields, $this->smart_tags );
+		$this->templates  = new Templates( $this->forms );
 		$this->submission = new Submission( $this->forms, $this->fields, $this->entries, $this->mailer, $this->smart_tags );
 
 		( new FormPostType() )->register_hooks();
@@ -120,6 +131,8 @@ final class Plugin {
 		( new Block( $this->forms ) )->register_hooks();
 		( new Preview( $this->forms, $this->renderer ) )->register_hooks();
 		( new SubmissionController( $this->submission, $this->renderer ) )->register_hooks();
+		( new RestController( $this ) )->register_hooks();
+		( new Privacy( $this->entries ) )->register_hooks();
 
 		if ( is_admin() ) {
 			( new Admin( $this ) )->register_hooks();
@@ -152,9 +165,14 @@ final class Plugin {
 	 */
 	public static function default_settings() {
 		return array(
-			'store_ip'            => true,
-			'min_submit_seconds'  => 2,
-			'delete_on_uninstall' => false,
+			'store_ip'               => true,
+			'min_submit_seconds'     => 2,
+			'delete_on_uninstall'    => false,
+			'captcha_provider'       => '',
+			'captcha_site_key'       => '',
+			'captcha_secret_key'     => '',
+			'recaptcha_v3_threshold' => 0.5,
+			'retention_days'         => 0,
 		);
 	}
 

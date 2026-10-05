@@ -10,33 +10,41 @@ namespace Glixform\Fields;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Checkbox group; the value is an array of selected labels.
+ * Checkbox group; the value is a list of selected labels.
  */
 class Checkbox extends ChoiceField {
 
 	/**
-	 * {@inheritDoc}
+	 * Machine name.
+	 *
+	 * @return string
 	 */
 	public function type() {
 		return 'checkbox';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Display name.
+	 *
+	 * @return string
 	 */
 	public function name() {
 		return __( 'Checkboxes', 'glixform' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Builder icon.
+	 *
+	 * @return string
 	 */
 	public function icon() {
 		return 'dashicons-yes-alt';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Selected values are a list.
+	 *
+	 * @return bool
 	 */
 	public function is_multiple() {
 		return true;
@@ -54,7 +62,7 @@ class Checkbox extends ChoiceField {
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Render the group.
 	 *
 	 * @param array        $field Field config.
 	 * @param string|array $value Value.
@@ -63,16 +71,5 @@ class Checkbox extends ChoiceField {
 	 */
 	protected function render_input( array $field, $value, array $attrs ) {
 		return $this->render_group( $field, $value, $attrs, 'checkbox' );
-	}
-
-	/**
-	 * Overrides the parent implementation.
-	 *
-	 * @param array        $field Field config.
-	 * @param string|array $value Value.
-	 * @return string
-	 */
-	public function format_value( array $field, $value ) {
-		return implode( ', ', (array) $value );
 	}
 }

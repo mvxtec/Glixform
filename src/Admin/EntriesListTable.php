@@ -90,9 +90,18 @@ class EntriesListTable extends \WP_List_Table {
 	 * @return array
 	 */
 	protected function get_bulk_actions() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$status = isset( $_GET['status'] ) ? sanitize_key( wp_unslash( $_GET['status'] ) ) : '';
+		if ( 'spam' === $status ) {
+			return array(
+				'not_spam' => __( 'Not spam', 'glixform' ),
+				'delete'   => __( 'Delete permanently', 'glixform' ),
+			);
+		}
 		return array(
 			'mark_read'   => __( 'Mark as read', 'glixform' ),
 			'mark_unread' => __( 'Mark as unread', 'glixform' ),
+			'mark_spam'   => __( 'Mark as spam', 'glixform' ),
 			'delete'      => __( 'Delete', 'glixform' ),
 		);
 	}
@@ -113,6 +122,7 @@ class EntriesListTable extends \WP_List_Table {
 				''       => __( 'All', 'glixform' ),
 				'unread' => __( 'Unread', 'glixform' ),
 				'read'   => __( 'Read', 'glixform' ),
+				'spam'   => __( 'Spam', 'glixform' ),
 			) as $status => $label
 		) {
 			$count                              = $this->entries->count(
@@ -189,7 +199,7 @@ class EntriesListTable extends \WP_List_Table {
 		$value    = '';
 		foreach ( $item['fields'] as $field ) {
 			if ( (int) $field['id'] === $field_id ) {
-				$value = SmartTags::value_to_string( $field['value'] );
+				$value = SmartTags::item_text( $field );
 				break;
 			}
 		}
@@ -218,7 +228,7 @@ class EntriesListTable extends \WP_List_Table {
 				'delete' => sprintf(
 					'<a href="%s" class="glixform-confirm" data-confirm="%s">%s</a>',
 					esc_url( EntriesPage::delete_url( $item['form_id'], $item['id'] ) ),
-					esc_attr__( 'Delete this entry?', 'glixform' ),
+					esc_attr__( 'Delete this entry and its files?', 'glixform' ),
 					esc_html__( 'Delete', 'glixform' )
 				),
 			)

@@ -10,36 +10,35 @@ namespace Glixform\Fields;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * <input type="text">.
+ * <input type="text">. Also the base for email, URL, phone and number inputs.
  */
 class Text extends AbstractField {
 
 	/**
-	 * {@inheritDoc}
+	 * Machine name.
+	 *
+	 * @return string
 	 */
 	public function type() {
 		return 'text';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Display name.
+	 *
+	 * @return string
 	 */
 	public function name() {
 		return __( 'Single Line Text', 'glixform' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Supported options.
+	 *
+	 * @return string[]
 	 */
 	public function options() {
-		return array( 'label', 'description', 'required', 'placeholder', 'default_value', 'max_length' );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function defaults() {
-		return parent::defaults() + array( 'max_length' => 0 );
+		return array( 'label', 'description', 'required', 'placeholder', 'default_value', 'max_length', 'css_class' );
 	}
 
 	/**
@@ -52,7 +51,17 @@ class Text extends AbstractField {
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Extra attributes for subclasses (autocomplete, inputmode, min/max...).
+	 *
+	 * @param array $field Field config.
+	 * @return string
+	 */
+	protected function extra_attributes( array $field ) {
+		return '';
+	}
+
+	/**
+	 * Render the input.
 	 *
 	 * @param array        $field Field config.
 	 * @param string|array $value Value.
@@ -69,17 +78,7 @@ class Text extends AbstractField {
 			esc_attr( $this->input_type() ),
 			$this->common_attributes( $field, $attrs ),
 			$extra . $this->extra_attributes( $field ),
-			esc_attr( (string) $value )
+			esc_attr( is_array( $value ) ? '' : (string) $value )
 		);
-	}
-
-	/**
-	 * Additional attributes for subclasses.
-	 *
-	 * @param array $field Field config.
-	 * @return string
-	 */
-	protected function extra_attributes( array $field ) {
-		return '';
 	}
 }

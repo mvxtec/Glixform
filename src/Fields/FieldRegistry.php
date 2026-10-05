@@ -38,6 +38,17 @@ class FieldRegistry {
 				Radio::class,
 				Checkbox::class,
 				Hidden::class,
+				Name::class,
+				Phone::class,
+				Url::class,
+				DateTime::class,
+				Address::class,
+				FileUpload::class,
+				Rating::class,
+				Gdpr::class,
+				PageBreak::class,
+				Divider::class,
+				Html::class,
 			);
 
 			/**

@@ -87,3 +87,65 @@ function wpautop( $text ) {
 function get_current_user_id() {
 	return 0;
 }
+if ( ! defined( 'MB_IN_BYTES' ) ) {
+	define( 'MB_IN_BYTES', 1048576 );
+}
+function sanitize_html_class( $class ) {
+	return preg_replace( '/[^A-Za-z0-9_-]/', '', (string) $class );
+}
+function sanitize_file_name( $name ) {
+	return preg_replace( '/[^A-Za-z0-9._-]/', '-', (string) $name );
+}
+function sanitize_key( $key ) {
+	return preg_replace( '/[^a-z0-9_\-]/', '', strtolower( (string) $key ) );
+}
+function wp_json_encode( $data ) {
+	return json_encode( $data );
+}
+function wp_parse_url( $url, $component = -1 ) {
+	return parse_url( $url, $component );
+}
+function date_i18n( $format, $timestamp ) {
+	return gmdate( $format, $timestamp );
+}
+function _n( $single, $plural, $number ) {
+	return 1 === (int) $number ? $single : $plural;
+}
+function size_format( $bytes ) {
+	return round( $bytes / 1048576 ) . ' MB';
+}
+function wp_max_upload_size() {
+	return 64 * 1048576;
+}
+function get_allowed_mime_types() {
+	return array(
+		'jpg|jpeg|jpe' => 'image/jpeg',
+		'png'          => 'image/png',
+		'pdf'          => 'application/pdf',
+	);
+}
+function wp_check_filetype_and_ext( $file, $filename ) {
+	$ext   = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+	$types = array(
+		'jpg' => 'image/jpeg',
+		'png' => 'image/png',
+		'pdf' => 'application/pdf',
+		'php' => false,
+	);
+	return array(
+		'ext'  => isset( $types[ $ext ] ) && $types[ $ext ] ? $ext : false,
+		'type' => $types[ $ext ] ?? false,
+	);
+}
+function wp_get_current_user() {
+	return (object) array( 'ID' => 0 );
+}
+function wp_generate_password( $length = 12 ) {
+	return substr( str_repeat( 'abcdefghij', 5 ), 0, $length );
+}
+function wp_strip_all_tags( $text ) {
+	return strip_tags( (string) $text );
+}
+function esc_attr__( $text ) {
+	return $text;
+}

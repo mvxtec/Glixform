@@ -15,53 +15,52 @@ defined( 'ABSPATH' ) || exit;
 class Number extends Text {
 
 	/**
-	 * {@inheritDoc}
+	 * Machine name.
+	 *
+	 * @return string
 	 */
 	public function type() {
 		return 'number';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Display name.
+	 *
+	 * @return string
 	 */
 	public function name() {
 		return __( 'Number', 'glixform' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Builder icon.
+	 *
+	 * @return string
 	 */
 	public function icon() {
 		return 'dashicons-calculator';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Supported options.
+	 *
+	 * @return string[]
 	 */
 	public function options() {
-		return array( 'label', 'description', 'required', 'placeholder', 'default_value', 'min', 'max', 'step' );
+		return array( 'label', 'description', 'required', 'min', 'max', 'placeholder', 'default_value', 'step', 'css_class' );
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public function defaults() {
-		return AbstractField::defaults() + array(
-			'min'  => '',
-			'max'  => '',
-			'step' => '',
-		);
-	}
-
-	/**
-	 * {@inheritDoc}
+	 * Input type attribute.
+	 *
+	 * @return string
 	 */
 	protected function input_type() {
 		return 'number';
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Min, max and step attributes.
 	 *
 	 * @param array $field Field config.
 	 * @return string
@@ -80,7 +79,7 @@ class Number extends Text {
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Validate the number and its range.
 	 *
 	 * @param array        $field Field config.
 	 * @param string|array $value Value.

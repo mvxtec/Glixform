@@ -15,42 +15,43 @@ defined( 'ABSPATH' ) || exit;
 class Select extends ChoiceField {
 
 	/**
-	 * {@inheritDoc}
+	 * Machine name.
+	 *
+	 * @return string
 	 */
 	public function type() {
 		return 'select';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Display name.
+	 *
+	 * @return string
 	 */
 	public function name() {
 		return __( 'Dropdown', 'glixform' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Builder icon.
+	 *
+	 * @return string
 	 */
 	public function icon() {
 		return 'dashicons-arrow-down-alt2';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Supported options.
+	 *
+	 * @return string[]
 	 */
 	public function options() {
-		return array( 'label', 'description', 'required', 'placeholder', 'choices' );
+		return array( 'label', 'description', 'required', 'choices', 'placeholder', 'css_class' );
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public function defaults() {
-		return parent::defaults() + array( 'placeholder' => '' );
-	}
-
-	/**
-	 * Overrides the parent implementation.
+	 * Render the select.
 	 *
 	 * @param array        $field Field config.
 	 * @param string|array $value Value.
@@ -71,7 +72,7 @@ class Select extends ChoiceField {
 			$html .= sprintf(
 				'<option value="%1$s"%2$s>%3$s</option>',
 				esc_attr( $label ),
-				selected( (string) $value, $label, false ),
+				selected( is_array( $value ) ? '' : (string) $value, $label, false ),
 				esc_html( $label )
 			);
 		}

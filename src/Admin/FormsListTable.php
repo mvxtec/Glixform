@@ -86,7 +86,7 @@ class FormsListTable extends \WP_List_Table {
 		$actions = array(
 			'edit'      => sprintf( '<a href="%s">%s</a>', esc_url( $edit ), esc_html__( 'Edit', 'glixform' ) ),
 			'entries'   => sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=glixform-entries&form_id=' . $item->ID ) ), esc_html__( 'Entries', 'glixform' ) ),
-			'preview'   => sprintf( '<a href="%s" target="_blank" rel="noopener">%s</a>', esc_url( Preview::url( $item->ID ) ), esc_html__( 'Preview', 'glixform' ) ),
+			'view'      => sprintf( '<a href="%s" target="_blank" rel="noopener">%s</a>', esc_url( Preview::url( $item->ID ) ), esc_html__( 'Preview', 'glixform' ) ),
 			'duplicate' => sprintf( '<a href="%s">%s</a>', esc_url( FormsPage::action_url( 'duplicate', $item->ID ) ), esc_html__( 'Duplicate', 'glixform' ) ),
 			'delete'    => sprintf(
 				'<a href="%s" class="glixform-confirm" data-confirm="%s">%s</a>',
@@ -117,7 +117,7 @@ class FormsListTable extends \WP_List_Table {
 	 */
 	public function column_entries( $item ) {
 		$count = $this->counts[ $item->ID ] ?? 0;
-		return sprintf( '<a href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=glixform-entries&form_id=' . $item->ID ) ), esc_html( number_format_i18n( $count ) ) );
+		return sprintf( '<a class="glixform-count-pill" href="%s">%s</a>', esc_url( admin_url( 'admin.php?page=glixform-entries&form_id=' . $item->ID ) ), esc_html( number_format_i18n( $count ) ) );
 	}
 
 	/**
@@ -129,6 +129,13 @@ class FormsListTable extends \WP_List_Table {
 	public function column_date( $item ) {
 		return esc_html( get_the_date( '', $item ) );
 	}
+
+	/**
+	 * No bulk actions or pagination, so no table navigation bars.
+	 *
+	 * @param string $which Top or bottom.
+	 */
+	protected function display_tablenav( $which ) {}
 
 	/**
 	 * Empty state.

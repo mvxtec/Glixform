@@ -3,7 +3,7 @@
  * Plugin Name:       Glixform
  * Plugin URI:        https://github.com/mvxtec/Glixform
  * Description:       Drag-and-drop form builder for WordPress: build forms, collect entries and get email notifications.
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Glixform
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GLIXFORM_VERSION', '0.1.0' );
+define( 'GLIXFORM_VERSION', '0.2.0' );
 define( 'GLIXFORM_FILE', __FILE__ );
 define( 'GLIXFORM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GLIXFORM_URL', plugin_dir_url( __FILE__ ) );
@@ -51,6 +51,7 @@ if ( file_exists( GLIXFORM_DIR . 'vendor/autoload.php' ) ) {
 }
 
 register_activation_hook( __FILE__, array( 'Glixform\\Install', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'Glixform\\Install', 'deactivate' ) );
 
 add_action( 'plugins_loaded', array( 'Glixform\\Plugin', 'instance' ) );
 

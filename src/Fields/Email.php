@@ -15,42 +15,52 @@ defined( 'ABSPATH' ) || exit;
 class Email extends Text {
 
 	/**
-	 * {@inheritDoc}
+	 * Machine name.
+	 *
+	 * @return string
 	 */
 	public function type() {
 		return 'email';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Display name.
+	 *
+	 * @return string
 	 */
 	public function name() {
 		return __( 'Email', 'glixform' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Builder icon.
+	 *
+	 * @return string
 	 */
 	public function icon() {
 		return 'dashicons-email';
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Supported options.
+	 *
+	 * @return string[]
 	 */
 	public function options() {
-		return array( 'label', 'description', 'required', 'placeholder', 'default_value' );
+		return array( 'label', 'description', 'required', 'placeholder', 'default_value', 'css_class' );
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Input type attribute.
+	 *
+	 * @return string
 	 */
 	protected function input_type() {
 		return 'email';
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Extra attributes.
 	 *
 	 * @param array $field Field config.
 	 * @return string
@@ -60,18 +70,18 @@ class Email extends Text {
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Trim the address.
 	 *
 	 * @param array $field Field config.
-	 * @param mixed $raw   Raw value from the request.
-	 * @return string|array
+	 * @param mixed $raw   Raw value.
+	 * @return string
 	 */
 	public function sanitize_value( array $field, $raw ) {
 		return is_array( $raw ) ? '' : trim( sanitize_text_field( (string) $raw ) );
 	}
 
 	/**
-	 * Overrides the parent implementation.
+	 * Validate the address.
 	 *
 	 * @param array        $field Field config.
 	 * @param string|array $value Value.

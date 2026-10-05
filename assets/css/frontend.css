@@ -1,0 +1,148 @@
+/* Glixform front-end styles. Kept light so the theme's typography shows through. */
+.glixform-container {
+	--glixform-accent: #2563eb;
+	--glixform-error: #b91c1c;
+	--glixform-border: #c3c4c7;
+	--glixform-radius: 6px;
+	max-width: 100%;
+	margin: 1.5em 0;
+}
+
+.glixform .glixform-title {
+	margin: 0 0 1em;
+}
+
+.glixform-field {
+	margin: 0 0 1.25em;
+}
+
+.glixform-label,
+.glixform-choices legend {
+	display: block;
+	margin: 0 0 0.4em;
+	padding: 0;
+	font-weight: 600;
+}
+
+.glixform-required {
+	color: var(--glixform-error);
+}
+
+.glixform .glixform-input {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
+	padding: 0.6em 0.75em;
+	border: 1px solid var(--glixform-border);
+	border-radius: var(--glixform-radius);
+	background: #fff;
+	color: inherit;
+	font: inherit;
+	line-height: 1.4;
+}
+
+.glixform .glixform-input:focus {
+	outline: 2px solid var(--glixform-accent);
+	outline-offset: 1px;
+	border-color: var(--glixform-accent);
+}
+
+.glixform-choices {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	min-width: 0;
+}
+
+.glixform-choices ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.glixform-choices li {
+	margin: 0 0 0.35em;
+}
+
+.glixform-description {
+	margin-top: 0.35em;
+	font-size: 0.9em;
+	opacity: 0.8;
+}
+
+.glixform-error {
+	margin-top: 0.35em;
+	color: var(--glixform-error);
+	font-size: 0.9em;
+}
+
+.glixform-has-error .glixform-input {
+	border-color: var(--glixform-error);
+}
+
+.glixform-notice {
+	margin: 0 0 1.25em;
+	padding: 0.75em 1em;
+	border-radius: var(--glixform-radius);
+}
+
+.glixform-notice-error {
+	border: 1px solid var(--glixform-error);
+	background: #fef2f2;
+	color: var(--glixform-error);
+}
+
+.glixform-confirmation {
+	padding: 1em 1.25em;
+	border: 1px solid #86efac;
+	border-radius: var(--glixform-radius);
+	background: #f0fdf4;
+	color: #14532d;
+}
+
+.glixform-confirmation:focus {
+	outline: none;
+}
+
+.glixform-confirmation > :last-child {
+	margin-bottom: 0;
+}
+
+.glixform .glixform-button {
+	padding: 0.7em 1.5em;
+	border: 0;
+	border-radius: var(--glixform-radius);
+	background: var(--glixform-accent);
+	color: #fff;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.glixform .glixform-button:hover {
+	filter: brightness(0.92);
+}
+
+.glixform .glixform-button:focus-visible {
+	outline: 2px solid var(--glixform-accent);
+	outline-offset: 2px;
+}
+
+.glixform .glixform-button[disabled] {
+	opacity: 0.7;
+	cursor: wait;
+}
+
+/* Honeypot: off-screen rather than display:none, which some bots detect. */
+.glixform-hp {
+	position: absolute !important;
+	left: -9999px !important;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+/* Inside the block editor the form is a preview only. */
+.editor-styles-wrapper .glixform {
+	pointer-events: none;
+}

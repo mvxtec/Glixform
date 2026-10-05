@@ -1,0 +1,36 @@
+{
+	"name": "mvxtec/glixform",
+	"description": "Drag-and-drop form builder for WordPress.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.6",
+		"wp-coding-standards/wpcs": "^3.1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpcompatibility/phpcompatibility-wp": "^2.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"Glixform\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Glixform\\Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"optimize-autoloader": true
+	},
+	"scripts": {
+		"test": "phpunit",
+		"lint": "phpcs",
+		"lint:fix": "phpcbf"
+	}
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ruleset name="Glixform">
+	<description>Coding standards for Glixform.</description>
+
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<config name="minimum_supported_wp_version" value="6.0"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress">
+		<!-- PSR-4 file names (ClassName.php) instead of class-name.php. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<!-- Custom tables are queried directly by design. -->
+		<exclude name="WordPress.DB.DirectDatabaseQuery"/>
+	</rule>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="glixform"/>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="glixform"/>
+				<element value="Glixform"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

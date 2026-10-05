@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Glixform 0.2.0\n"
+"Project-Id-Version: Glixform 0.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/glixform\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-05T18:54:21+00:00\n"
+"POT-Creation-Date: 2026-10-05T19:55:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: glixform\n"
@@ -17,8 +17,8 @@ msgstr ""
 #. Plugin Name of the plugin
 #. Author of the plugin
 #: glixform.php
-#: src/Admin/Admin.php:71
 #: src/Admin/Admin.php:72
+#: src/Admin/Admin.php:73
 #: src/Frontend/Block.php:59
 #: assets/js/block.js:62
 msgid "Glixform"
@@ -38,19 +38,19 @@ msgstr ""
 msgid "Glixform requires PHP 7.4 or newer."
 msgstr ""
 
-#: src/Admin/Admin.php:79
+#: src/Admin/Admin.php:80
 msgid "All Forms"
 msgstr ""
 
-#: src/Admin/Admin.php:80
+#: src/Admin/Admin.php:81
 msgid "Form Builder"
 msgstr ""
 
-#: src/Admin/Admin.php:80
+#: src/Admin/Admin.php:81
 msgid "Add New"
 msgstr ""
 
-#: src/Admin/Admin.php:81
+#: src/Admin/Admin.php:82
 #: src/Admin/EntriesPage.php:232
 #: src/Admin/EntriesPage.php:282
 #: src/Admin/FormsListTable.php:64
@@ -58,24 +58,36 @@ msgstr ""
 msgid "Entries"
 msgstr ""
 
-#: src/Admin/Admin.php:82
+#: src/Admin/Admin.php:83
+#: src/Admin/EmailPage.php:221
+msgid "Email delivery"
+msgstr ""
+
+#: src/Admin/Admin.php:83
+#: src/Fields/Email.php:32
+#: src/Forms/Templates.php:102
+msgid "Email"
+msgstr ""
+
+#: src/Admin/Admin.php:84
 #: src/Admin/ToolsPage.php:157
 msgid "Tools"
 msgstr ""
 
-#: src/Admin/Admin.php:83
+#: src/Admin/Admin.php:85
 #: src/Admin/SettingsPage.php:75
 #: assets/src/builder/App.js:292
 msgid "Settings"
 msgstr ""
 
-#: src/Admin/Admin.php:125
+#: src/Admin/Admin.php:130
 #: src/Admin/FormsPage.php:98
 #: src/Forms/FormPostType.php:34
 msgid "Forms"
 msgstr ""
 
-#: src/Admin/Admin.php:135
+#: src/Admin/Admin.php:140
+#: src/Admin/EmailPage.php:89
 msgid "You do not have permission to do this."
 msgstr ""
 
@@ -104,9 +116,374 @@ msgstr ""
 msgid "IP Address"
 msgstr ""
 
+#: src/Admin/EmailPage.php:63
+#: src/Forms/FormRepository.php:54
+#: src/Frontend/Assets.php:58
+msgid "Sending…"
+msgstr ""
+
+#: src/Admin/EmailPage.php:64
+#: src/Admin/EmailPage.php:399
+msgid "Send test email"
+msgstr ""
+
+#: src/Admin/EmailPage.php:65
+msgid "The request failed. Please reload the page and try again."
+msgstr ""
+
+#: src/Admin/EmailPage.php:66
+msgid "Server replies"
+msgstr ""
+
+#: src/Admin/EmailPage.php:67
+msgid "Setup guide"
+msgstr ""
+
+#: src/Admin/EmailPage.php:94
+msgid "Please enter a valid email address to send the test to."
+msgstr ""
+
+#. translators: %s: site name.
+#: src/Admin/EmailPage.php:108
+#, php-format
+msgid "Glixform test email from %s"
+msgstr ""
+
+#. translators: 1: recipient, 2: how it was sent, e.g. "SMTP (smtp.gmail.com)".
+#: src/Admin/EmailPage.php:123
+#, php-format
+msgid "Test email sent to %1$s via %2$s. Check the inbox (and the spam folder, just in case)."
+msgstr ""
+
+#. translators: %s: technical error message.
+#: src/Admin/EmailPage.php:131
+#, php-format
+msgid "The test email could not be sent: %s"
+msgstr ""
+
+#. translators: %s: technical error message.
+#: src/Admin/EmailPage.php:131
+msgid "unknown error"
+msgstr ""
+
+#: src/Admin/EmailPage.php:148
+msgid "The username or password was rejected. Check them carefully. Gmail and many providers need an App Password instead of your normal password."
+msgstr ""
+
+#: src/Admin/EmailPage.php:149
+msgid "The secure connection failed. Use TLS with port 587, or SSL with port 465, and check the host name is exactly what your provider gives."
+msgstr ""
+
+#: src/Admin/EmailPage.php:150
+msgid "Could not reach the mail server. Check the host and port. Some hosts block port 587/465; try the other one, or port 2525, or ask your host to open it."
+msgstr ""
+
+#: src/Admin/EmailPage.php:151
+msgid "The server refused the sender. The From Email usually has to be the same address you log in with, or a sender you verified with your provider."
+msgstr ""
+
+#: src/Admin/EmailPage.php:152
+msgid "One of the email addresses is not valid."
+msgstr ""
+
+#: src/Admin/EmailPage.php:153
+msgid "This server cannot send email by itself. Choose an SMTP provider above to fix this."
+msgstr ""
+
+#: src/Admin/EmailPage.php:162
+msgid "Double-check every setting against your provider’s instructions, or contact your host."
+msgstr ""
+
+#. translators: %s: SMTP host.
+#: src/Admin/EmailPage.php:178
+#, php-format
+msgid "SMTP (%s)"
+msgstr ""
+
+#: src/Admin/EmailPage.php:180
+msgid "the WordPress default mailer"
+msgstr ""
+
+#: src/Admin/EmailPage.php:190
+msgid "It works! 🎉"
+msgstr ""
+
+#: src/Admin/EmailPage.php:191
+msgid "This test email was sent by Glixform. Your form notifications will be delivered the same way."
+msgstr ""
+
+#. translators: %s: how the email was sent.
+#: src/Admin/EmailPage.php:193
+#, php-format
+msgid "Sent via %s"
+msgstr ""
+
+#. translators: %s: plugin name.
+#: src/Admin/EmailPage.php:211
+#, php-format
+msgid "Handled by %s"
+msgstr ""
+
+#. translators: %s: SMTP host.
+#: src/Admin/EmailPage.php:214
+#, php-format
+msgid "Sending via %s"
+msgstr ""
+
+#: src/Admin/EmailPage.php:216
+msgid "WordPress default (may go to spam)"
+msgstr ""
+
+#: src/Admin/EmailPage.php:223
+msgid "Email log cleared."
+msgstr ""
+
+#. translators: %s: plugin name.
+#: src/Admin/EmailPage.php:231
+#, php-format
+msgid "%s is active"
+msgstr ""
+
+#: src/Admin/EmailPage.php:232
+msgid "Your emails, including Glixform notifications, are already sent by that plugin, so the settings below are not used. You can still send a test email and see the email log here."
+msgstr ""
+
+#: src/Admin/EmailPage.php:244
+#: src/Admin/EmailPage.php:249
+msgid "Mailer"
+msgstr ""
+
+#: src/Admin/EmailPage.php:245
+msgid "Choose how your site sends email. An SMTP service makes sure form notifications reach the inbox instead of spam."
+msgstr ""
+
+#: src/Admin/EmailPage.php:252
+msgid "WordPress default"
+msgstr ""
+
+#: src/Admin/EmailPage.php:253
+msgid "Not recommended"
+msgstr ""
+
+#: src/Admin/EmailPage.php:260
+msgid "Popular"
+msgstr ""
+
+#: src/Admin/EmailPage.php:271
+msgid "Mail server"
+msgstr ""
+
+#: src/Admin/EmailPage.php:276
+msgid "SMTP host"
+msgstr ""
+
+#: src/Admin/EmailPage.php:282
+msgid "Encryption"
+msgstr ""
+
+#: src/Admin/EmailPage.php:287
+#: src/Process/Captcha.php:53
+#: assets/src/builder/components/SettingsPanel.js:82
+msgid "None"
+msgstr ""
+
+#: src/Admin/EmailPage.php:295
+msgid "TLS is recommended for most servers."
+msgstr ""
+
+#: src/Admin/EmailPage.php:299
+msgid "SMTP port"
+msgstr ""
+
+#: src/Admin/EmailPage.php:302
+msgid "Set automatically from the encryption (TLS 587, SSL 465). Change only if your provider says so."
+msgstr ""
+
+#: src/Admin/EmailPage.php:306
+msgid "Authentication"
+msgstr ""
+
+#: src/Admin/EmailPage.php:307
+msgid "Log in to the mail server (almost always needed)"
+msgstr ""
+
+#: src/Admin/EmailPage.php:310
+msgid "SMTP username"
+msgstr ""
+
+#: src/Admin/EmailPage.php:317
+msgid "SMTP password"
+msgstr ""
+
+#: src/Admin/EmailPage.php:320
+msgid "Set in wp-config.php"
+msgstr ""
+
+#: src/Admin/EmailPage.php:322
+#: src/Admin/SettingsPage.php:113
+msgid "Saved — leave empty to keep it"
+msgstr ""
+
+#: src/Admin/EmailPage.php:325
+msgid "Remove the saved password"
+msgstr ""
+
+#: src/Admin/EmailPage.php:331
+msgid "Stored encrypted. It is never shown again after saving."
+msgstr ""
+
+#: src/Admin/EmailPage.php:332
+msgid "This server lacks OpenSSL, so the password is only obscured. Consider defining GLIXFORM_SMTP_PASSWORD in wp-config.php instead."
+msgstr ""
+
+#: src/Admin/EmailPage.php:345
+msgid "Sender"
+msgstr ""
+
+#: src/Admin/EmailPage.php:346
+msgid "The name and address your emails come from. For best delivery, use the same address you log in to the mail server with."
+msgstr ""
+
+#: src/Admin/EmailPage.php:350
+#: assets/src/builder/components/SettingsPanel.js:435
+msgid "From name"
+msgstr ""
+
+#: src/Admin/EmailPage.php:353
+msgid "Use for all emails, even when another plugin sets its own name"
+msgstr ""
+
+#: src/Admin/EmailPage.php:357
+msgid "From email"
+msgstr ""
+
+#: src/Admin/EmailPage.php:360
+msgid "Use for all emails, even when another plugin sets its own address"
+msgstr ""
+
+#: src/Admin/EmailPage.php:369
+msgid "Email log"
+msgstr ""
+
+#: src/Admin/EmailPage.php:370
+msgid "Keeps the recipient, subject and result of every email the site sends, so you can see if a notification failed. Email contents are not stored."
+msgstr ""
+
+#: src/Admin/EmailPage.php:374
+msgid "Logging"
+msgstr ""
+
+#: src/Admin/EmailPage.php:375
+msgid "Keep a log of sent emails"
+msgstr ""
+
+#: src/Admin/EmailPage.php:378
+msgid "Keep entries for"
+msgstr ""
+
+#: src/Admin/EmailPage.php:379
+#: src/Admin/SettingsPage.php:140
+msgid "days"
+msgstr ""
+
+#: src/Admin/EmailPage.php:383
+#: src/Admin/SettingsPage.php:159
+msgid "Save settings"
+msgstr ""
+
+#: src/Admin/EmailPage.php:390
+msgid "Send a test email"
+msgstr ""
+
+#: src/Admin/EmailPage.php:391
+msgid "Uses the saved settings. Save first if you changed anything above."
+msgstr ""
+
+#: src/Admin/EmailPage.php:395
+#: assets/src/builder/components/SettingsPanel.js:418
+msgid "Send to"
+msgstr ""
+
+#: src/Admin/EmailPage.php:435
+msgid "Form notification"
+msgstr ""
+
+#: src/Admin/EmailPage.php:436
+msgid "Test email"
+msgstr ""
+
+#: src/Admin/EmailPage.php:437
+#: src/Forms/Templates.php:140
+#: src/Forms/Templates.php:185
+msgid "Other"
+msgstr ""
+
+#: src/Admin/EmailPage.php:442
+msgid "Recent emails"
+msgstr ""
+
+#: src/Admin/EmailPage.php:446
+#: src/Admin/EntriesListTable.php:122
+msgid "All"
+msgstr ""
+
+#: src/Admin/EmailPage.php:447
+#: src/Admin/EmailPage.php:499
+msgid "Sent"
+msgstr ""
+
+#: src/Admin/EmailPage.php:448
+#: src/Admin/EmailPage.php:501
+msgid "Failed"
+msgstr ""
+
+#: src/Admin/EmailPage.php:468
+msgid "Search emails"
+msgstr ""
+
+#: src/Admin/EmailPage.php:469
+msgid "Search recipient or subject"
+msgstr ""
+
+#: src/Admin/EmailPage.php:470
+msgid "Search"
+msgstr ""
+
+#: src/Admin/EmailPage.php:472
+msgid "Delete the whole email log?"
+msgstr ""
+
+#: src/Admin/EmailPage.php:472
+msgid "Clear log"
+msgstr ""
+
+#: src/Admin/EmailPage.php:478
+msgid "No emails logged yet. Send a test email or submit a form to see it here."
+msgstr ""
+
+#: src/Admin/EmailPage.php:483
 #: src/Admin/EntriesListTable.php:83
 #: src/Fields/DateTime.php:81
 msgid "Date"
+msgstr ""
+
+#: src/Admin/EmailPage.php:484
+msgid "To"
+msgstr ""
+
+#: src/Admin/EmailPage.php:485
+#: assets/src/builder/components/SettingsPanel.js:428
+msgid "Subject"
+msgstr ""
+
+#: src/Admin/EmailPage.php:486
+#: src/Fields/DateTime.php:78
+msgid "Type"
+msgstr ""
+
+#: src/Admin/EmailPage.php:487
+#: src/Admin/EntriesPage.php:390
+msgid "Status"
 msgstr ""
 
 #: src/Admin/EntriesListTable.php:97
@@ -138,10 +515,6 @@ msgstr ""
 #: assets/src/builder/components/FieldList.js:130
 #: assets/src/builder/components/SettingsPanel.js:118
 msgid "Delete"
-msgstr ""
-
-#: src/Admin/EntriesListTable.php:122
-msgid "All"
 msgstr ""
 
 #: src/Admin/EntriesListTable.php:123
@@ -266,10 +639,6 @@ msgstr ""
 #: src/Admin/EntriesPage.php:388
 #: src/Support/Privacy.php:93
 msgid "Submitted"
-msgstr ""
-
-#: src/Admin/EntriesPage.php:390
-msgid "Status"
 msgstr ""
 
 #: src/Admin/EntriesPage.php:392
@@ -398,10 +767,6 @@ msgstr ""
 msgid "Secret key"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:113
-msgid "Saved — leave empty to keep it"
-msgstr ""
-
 #: src/Admin/SettingsPage.php:117
 msgid "reCAPTCHA v3 minimum score"
 msgstr ""
@@ -431,10 +796,6 @@ msgstr ""
 msgid "Delete entries after"
 msgstr ""
 
-#: src/Admin/SettingsPage.php:140
-msgid "days"
-msgstr ""
-
 #: src/Admin/SettingsPage.php:141
 msgid "0 keeps entries forever. Old entries and their files are removed once a day."
 msgstr ""
@@ -449,10 +810,6 @@ msgstr ""
 
 #: src/Admin/SettingsPage.php:155
 msgid "Also delete all forms, entries, uploaded files and settings"
-msgstr ""
-
-#: src/Admin/SettingsPage.php:159
-msgid "Save settings"
 msgstr ""
 
 #: src/Admin/ToolsPage.php:78
@@ -642,10 +999,6 @@ msgstr ""
 msgid "Date / Time"
 msgstr ""
 
-#: src/Fields/DateTime.php:78
-msgid "Type"
-msgstr ""
-
 #: src/Fields/DateTime.php:82
 msgid "Time"
 msgstr ""
@@ -676,11 +1029,6 @@ msgstr ""
 
 #: src/Fields/Divider.php:32
 msgid "Section Divider"
-msgstr ""
-
-#: src/Fields/Email.php:32
-#: src/Forms/Templates.php:102
-msgid "Email"
 msgstr ""
 
 #: src/Fields/Email.php:93
@@ -948,11 +1296,6 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: src/Forms/FormRepository.php:54
-#: src/Frontend/Assets.php:58
-msgid "Sending…"
-msgstr ""
-
 #: src/Forms/FormRepository.php:73
 msgid "Admin notification"
 msgstr ""
@@ -1023,11 +1366,6 @@ msgstr ""
 
 #: src/Forms/Templates.php:140
 msgid "Account"
-msgstr ""
-
-#: src/Forms/Templates.php:140
-#: src/Forms/Templates.php:185
-msgid "Other"
 msgstr ""
 
 #: src/Forms/Templates.php:145
@@ -1325,7 +1663,151 @@ msgstr ""
 msgid "Glixform: form not found."
 msgstr ""
 
-#: src/Notifications/Mailer.php:171
+#: src/Mail/Providers.php:25
+msgid "Gmail / Google Workspace"
+msgstr ""
+
+#: src/Mail/Providers.php:29
+msgid "Your full Gmail address"
+msgstr ""
+
+#: src/Mail/Providers.php:30
+msgid "A Google App Password (16 characters), not your normal password"
+msgstr ""
+
+#: src/Mail/Providers.php:31
+msgid "Turn on 2-Step Verification in your Google Account, then search for \"App passwords\" and create one. The From Email must be this Gmail address."
+msgstr ""
+
+#: src/Mail/Providers.php:35
+msgid "Outlook / Microsoft 365"
+msgstr ""
+
+#: src/Mail/Providers.php:39
+msgid "Your full Microsoft 365 email address"
+msgstr ""
+
+#: src/Mail/Providers.php:40
+msgid "Your mailbox password or an app password"
+msgstr ""
+
+#: src/Mail/Providers.php:41
+msgid "Your Microsoft 365 admin must allow \"Authenticated SMTP\" for this mailbox. Personal Outlook.com accounts may not support it."
+msgstr ""
+
+#: src/Mail/Providers.php:45
+msgid "Brevo (Sendinblue)"
+msgstr ""
+
+#: src/Mail/Providers.php:49
+msgid "Your Brevo SMTP login (shown in SMTP & API settings)"
+msgstr ""
+
+#: src/Mail/Providers.php:50
+msgid "Your Brevo SMTP key"
+msgstr ""
+
+#: src/Mail/Providers.php:51
+msgid "In Brevo, open SMTP & API → SMTP, then copy the login and generate an SMTP key. Verify your sender address in Brevo first."
+msgstr ""
+
+#: src/Mail/Providers.php:55
+msgid "SendGrid"
+msgstr ""
+
+#: src/Mail/Providers.php:60
+msgid "Always the word \"apikey\""
+msgstr ""
+
+#: src/Mail/Providers.php:61
+msgid "Your SendGrid API key"
+msgstr ""
+
+#: src/Mail/Providers.php:62
+msgid "Create an API key with \"Mail Send\" access in SendGrid, and verify your sender identity."
+msgstr ""
+
+#: src/Mail/Providers.php:66
+msgid "Mailgun"
+msgstr ""
+
+#: src/Mail/Providers.php:70
+msgid "Your Mailgun SMTP login, e.g. postmaster@mg.yourdomain.com"
+msgstr ""
+
+#: src/Mail/Providers.php:71
+msgid "The SMTP password for that login"
+msgstr ""
+
+#: src/Mail/Providers.php:72
+msgid "Use smtp.eu.mailgun.org if your Mailgun domain is in the EU region."
+msgstr ""
+
+#: src/Mail/Providers.php:76
+msgid "Zoho Mail"
+msgstr ""
+
+#: src/Mail/Providers.php:80
+msgid "Your full Zoho email address"
+msgstr ""
+
+#: src/Mail/Providers.php:81
+msgid "Your Zoho password, or an app-specific password if 2FA is on"
+msgstr ""
+
+#: src/Mail/Providers.php:82
+msgid "Use smtp.zoho.eu or smtp.zoho.in if your account is in those data centres."
+msgstr ""
+
+#: src/Mail/Providers.php:86
+msgid "SMTP2GO"
+msgstr ""
+
+#: src/Mail/Providers.php:90
+msgid "The SMTP username you created in SMTP2GO"
+msgstr ""
+
+#: src/Mail/Providers.php:91
+msgid "That SMTP user’s password"
+msgstr ""
+
+#: src/Mail/Providers.php:92
+msgid "If port 587 is blocked by your host, try 2525."
+msgstr ""
+
+#: src/Mail/Providers.php:96
+msgid "Amazon SES"
+msgstr ""
+
+#: src/Mail/Providers.php:100
+msgid "Your SES SMTP username (not your AWS access key)"
+msgstr ""
+
+#: src/Mail/Providers.php:101
+msgid "Your SES SMTP password"
+msgstr ""
+
+#: src/Mail/Providers.php:102
+msgid "Change the region in the host to match your SES region, e.g. email-smtp.eu-west-1.amazonaws.com."
+msgstr ""
+
+#: src/Mail/Providers.php:106
+msgid "Other SMTP"
+msgstr ""
+
+#: src/Mail/Providers.php:110
+msgid "Usually your full email address"
+msgstr ""
+
+#: src/Mail/Providers.php:111
+msgid "Your email password or an app password"
+msgstr ""
+
+#: src/Mail/Providers.php:112
+msgid "Get these details from your web host or email provider."
+msgstr ""
+
+#: src/Notifications/Mailer.php:174
 msgid "Sent by Glixform"
 msgstr ""
 
@@ -1401,11 +1883,6 @@ msgstr ""
 
 #: src/Notifications/SmartTags.php:44
 msgid "Random unique ID"
-msgstr ""
-
-#: src/Process/Captcha.php:53
-#: assets/src/builder/components/SettingsPanel.js:82
-msgid "None"
 msgstr ""
 
 #: src/Process/Captcha.php:54
@@ -1863,20 +2340,8 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: assets/src/builder/components/SettingsPanel.js:418
-msgid "Send to"
-msgstr ""
-
 #: assets/src/builder/components/SettingsPanel.js:419
 msgid "Separate several addresses with commas. Use an Email field’s smart tag to send a copy to the visitor."
-msgstr ""
-
-#: assets/src/builder/components/SettingsPanel.js:428
-msgid "Subject"
-msgstr ""
-
-#: assets/src/builder/components/SettingsPanel.js:435
-msgid "From name"
 msgstr ""
 
 #: assets/src/builder/components/SettingsPanel.js:441

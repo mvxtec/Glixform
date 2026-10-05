@@ -149,3 +149,6 @@ function wp_strip_all_tags( $text ) {
 function esc_attr__( $text ) {
 	return $text;
 }
+if ( ! defined( 'DAY_IN_SECONDS' ) ) {
+	define( 'DAY_IN_SECONDS', 86400 );
+}

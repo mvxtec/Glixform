@@ -33,6 +33,7 @@ function glixform_uninstall_site() {
 	// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}glixform_entry_fields" );
 	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}glixform_entries" );
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}glixform_email_log" );
 	// phpcs:enable
 
 	// Uploaded files.
@@ -49,6 +50,7 @@ function glixform_uninstall_site() {
 
 	wp_clear_scheduled_hook( 'glixform_daily' );
 	delete_option( 'glixform_settings' );
+	delete_option( 'glixform_email' );
 	delete_option( 'glixform_db_version' );
 	delete_option( 'glixform_version' );
 }

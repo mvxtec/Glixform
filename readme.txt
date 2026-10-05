@@ -4,7 +4,7 @@ Tags: form builder, contact form, forms, entries, email
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,7 @@ Glixform lets you build contact and other forms without code.
 * Email notifications with smart tags
 * Confirmation message or redirect after submission
 * Built-in spam protection (honeypot and time token)
+* Reliable email delivery through SMTP, with a test button and an email log
 * Accessible markup and works without JavaScript
 
 == Installation ==
@@ -29,6 +30,12 @@ Glixform lets you build contact and other forms without code.
 3. Add the Glixform block to a page, or paste the form's shortcode.
 
 == Changelog ==
+
+= 0.3.0 =
+* Email delivery: send all site email through SMTP (Gmail, Outlook/365, Brevo, SendGrid, Mailgun, Zoho, SMTP2GO, Amazon SES or any SMTP server).
+* Send a test email with plain-language advice when something is wrong.
+* Email log of sent and failed emails, with automatic cleanup.
+* SMTP password stored encrypted; steps aside when another SMTP plugin is active.
 
 = 0.2.0 =
 * New React form builder with live preview, templates, drag and drop, undo/redo.

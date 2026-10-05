@@ -2,7 +2,7 @@
 
 A drag-and-drop form builder for WordPress. Build forms, collect entries, get email notifications.
 
-**Status:** Phase 2, version 0.2.0.
+**Status:** Phase 2 + email delivery, version 0.3.0.
 
 ## Features
 
@@ -20,6 +20,7 @@ A drag-and-drop form builder for WordPress. Build forms, collect entries, get em
 | Entries | Search, read/unread/spam views, bulk actions, single view with file downloads, CSV export |
 | Files | Type/size/count limits, real type checks, random names, protected folder, admin-only downloads |
 | Privacy | WordPress personal data export/erase, automatic deletion after N days, optional IP storage |
+| Email delivery | SMTP for all site email (Gmail, Outlook/365, Brevo, SendGrid, Mailgun, Zoho, SMTP2GO, Amazon SES, any server), test email with plain-language error advice, email log, encrypted password (or `GLIXFORM_SMTP_PASSWORD` in wp-config.php), steps aside if WP Mail SMTP/FluentSMTP/Post SMTP is active |
 | Tools | Import/export forms as JSON |
 | API | REST API under `/wp-json/glixform/v1` (forms, entries, templates, preview) |
 
@@ -76,6 +77,7 @@ src/
   Forms/Templates            Starter templates
   Rest/                      REST API
   Support/                   Uploads, Privacy (export/erase, retention)
+  Mail/                      SMTP settings, PHPMailer hook, provider presets, encryption, email log
 assets/js, assets/css        Front end (plain JS/CSS, no build)
 assets/src                   Builder source (React, built with @wordpress/scripts into build/)
 tests/Unit/                  PHPUnit tests

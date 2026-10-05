@@ -17,7 +17,7 @@ class Install {
 	/**
 	 * Bump when the schema changes; dbDelta() applies the difference.
 	 */
-	const DB_VERSION = '1';
+	const DB_VERSION = '2';
 
 	/**
 	 * Activation hook. Network activation is handled lazily by maybe_upgrade()
@@ -86,6 +86,27 @@ class Install {
 				KEY form_field (form_id,field_id)
 			) {$charset};"
 		);
+
+		$log = $wpdb->prefix . 'glixform_email_log';
+		dbDelta(
+			"CREATE TABLE {$log} (
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				created_at datetime NOT NULL,
+				to_email text NOT NULL,
+				subject varchar(255) NOT NULL DEFAULT '',
+				status varchar(10) NOT NULL DEFAULT 'sent',
+				error text NOT NULL,
+				source varchar(20) NOT NULL DEFAULT '',
+				mailer varchar(20) NOT NULL DEFAULT '',
+				PRIMARY KEY  (id),
+				KEY status (status),
+				KEY created_at (created_at)
+			) {$charset};"
+		);
+
+		if ( false === get_option( 'glixform_email' ) ) {
+			add_option( 'glixform_email', Mail\SmtpSettings::defaults(), '', false );
+		}
 
 		update_option( 'glixform_db_version', self::DB_VERSION );
 		update_option( 'glixform_version', GLIXFORM_VERSION );

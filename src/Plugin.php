@@ -18,6 +18,8 @@ use Glixform\Frontend\Block;
 use Glixform\Frontend\Preview;
 use Glixform\Frontend\Renderer;
 use Glixform\Frontend\Shortcode;
+use Glixform\Mail\EmailLog;
+use Glixform\Mail\SmtpMailer;
 use Glixform\Notifications\Mailer;
 use Glixform\Notifications\SmartTags;
 use Glixform\Process\Submission;
@@ -133,6 +135,8 @@ final class Plugin {
 		( new SubmissionController( $this->submission, $this->renderer ) )->register_hooks();
 		( new RestController( $this ) )->register_hooks();
 		( new Privacy( $this->entries ) )->register_hooks();
+		( new SmtpMailer() )->register_hooks();
+		( new EmailLog() )->register_hooks();
 
 		if ( is_admin() ) {
 			( new Admin( $this ) )->register_hooks();

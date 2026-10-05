@@ -49,6 +49,7 @@ class Admin {
 			'entries'  => new EntriesPage( $this->plugin ),
 			'settings' => new SettingsPage(),
 			'tools'    => new ToolsPage( $this->plugin ),
+			'email'    => new EmailPage(),
 		);
 
 		foreach ( $this->pages as $page ) {
@@ -79,6 +80,7 @@ class Admin {
 		add_submenu_page( 'glixform', __( 'All Forms', 'glixform' ), __( 'All Forms', 'glixform' ), $cap, 'glixform', array( $this->pages['forms'], 'render' ) );
 		add_submenu_page( 'glixform', __( 'Form Builder', 'glixform' ), __( 'Add New', 'glixform' ), $cap, 'glixform-builder', array( $this->pages['builder'], 'render' ) );
 		add_submenu_page( 'glixform', __( 'Entries', 'glixform' ), __( 'Entries', 'glixform' ), $cap, 'glixform-entries', array( $this->pages['entries'], 'render' ) );
+		add_submenu_page( 'glixform', __( 'Email delivery', 'glixform' ), __( 'Email', 'glixform' ), $cap, 'glixform-email', array( $this->pages['email'], 'render' ) );
 		add_submenu_page( 'glixform', __( 'Tools', 'glixform' ), __( 'Tools', 'glixform' ), $cap, 'glixform-tools', array( $this->pages['tools'], 'render' ) );
 		add_submenu_page( 'glixform', __( 'Settings', 'glixform' ), __( 'Settings', 'glixform' ), $cap, 'glixform-settings', array( $this->pages['settings'], 'render' ) );
 	}
@@ -97,6 +99,9 @@ class Admin {
 			return;
 		}
 		wp_enqueue_style( 'glixform-admin', GLIXFORM_URL . 'assets/css/admin.css', array(), GLIXFORM_VERSION );
+		if ( false !== strpos( (string) $hook_suffix, 'glixform-email' ) ) {
+			$this->pages['email']->enqueue();
+		}
 	}
 
 	/**

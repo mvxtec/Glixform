@@ -8,6 +8,7 @@
 namespace Glixform\Notifications;
 
 use Glixform\Forms\ConditionalLogic;
+use Glixform\Mail\EmailLog;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -112,7 +113,9 @@ class Mailer {
 			$notification
 		);
 
+		EmailLog::set_source( 'glixform' );
 		$sent = wp_mail( $email['to'], $email['subject'], $email['message'], $email['headers'] );
+		EmailLog::set_source( '' );
 
 		if ( $from_filter ) {
 			remove_filter( 'wp_mail_from_name', $from_filter );
